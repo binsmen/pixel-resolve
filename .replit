@@ -37,5 +37,6 @@ waitForPort = 5000
 outputType = "webview"
 
 [deployment]
-deploymentTarget = "cloudrun"
+deploymentTarget = "autoscale"
 run = ["npm", "start"]
+build = ["npm", "run", "build"]
