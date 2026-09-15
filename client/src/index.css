@@ -1,0 +1,274 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Default: Dark Mode (HUD / Terminal Pixel Aesthetic per Ui.md) */
+  --bg-page: #0a0a0b;
+  --surface-card: #131315;
+  --surface-raised: #19191c;
+  --border-subtle: #29292d;
+  --border-bright: #3a3a40;
+  --text-heading: #f4f4f2;
+  --text-body: #aeaeac;
+  --text-dim: #77777a;
+  --accent-green: #22c55e;
+  --accent-green-glow: rgba(34, 197, 94, 0.25);
+  --glass-panel: rgba(255, 255, 255, 0.035);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-highlight: rgba(255, 255, 255, 0.05);
+  --metallic-badge: linear-gradient(135deg, #f4f4f5 0%, #d4d4d8 50%, #ffffff 100%);
+  --metallic-badge-text: #09090b;
+  --card-shadow: 0 12px 32px rgba(0, 0, 0, 0.7), 4px 4px 0px 0px #000000;
+  --hud-dot: #52525b;
+}
+
+html.light {
+  /* Light Mode (Crisp retro canvas; silver things shifted to the darker side per user instruction) */
+  --bg-page: #f4f4f5;
+  --surface-card: #ffffff;
+  --surface-raised: #ebebef;
+  --border-subtle: #d4d4d8;
+  --border-bright: #18181b;
+  --text-heading: #09090b;
+  --text-body: #27272a;
+  --text-dim: #71717a;
+  --accent-green: #16a34a;
+  --accent-green-glow: rgba(22, 163, 74, 0.2);
+  --glass-panel: rgba(24, 24, 27, 0.03);
+  --glass-border: rgba(24, 24, 27, 0.18);
+  --glass-highlight: rgba(24, 24, 27, 0.04);
+  /* Shift silver elements to darker obsidian/charcoal in light mode */
+  --metallic-badge: linear-gradient(135deg, #18181b 0%, #27272a 50%, #09090b 100%);
+  --metallic-badge-text: #f4f4f2;
+  --card-shadow: 4px 4px 0px 0px #18181b;
+  --hud-dot: #a1a1aa;
+}
+
+body {
+  background-color: var(--bg-page);
+  color: var(--text-heading);
+  min-height: 100vh;
+  margin: 0;
+  font-family: 'JetBrains Mono', monospace;
+  overflow-x: hidden;
+}
+
+/* Glass Hero & Shine Sweep Animation */
+.glass-hero-panel {
+  background: var(--glass-panel);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 28px;
+  box-shadow: var(--card-shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.glass-hero-panel::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -120%;
+  width: 80%;
+  height: 200%;
+  background: linear-gradient(
+    60deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.03) 40%,
+    rgba(255, 255, 255, 0.12) 50%,
+    rgba(255, 255, 255, 0.03) 60%,
+    transparent 100%
+  );
+  transform: rotate(25deg);
+  animation: shineSweep 6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  pointer-events: none;
+}
+
+html.light .glass-hero-panel::after {
+  background: linear-gradient(
+    60deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0.02) 40%,
+    rgba(0, 0, 0, 0.06) 50%,
+    rgba(0, 0, 0, 0.02) 60%,
+    transparent 100%
+  );
+}
+
+@keyframes shineSweep {
+  0% {
+    left: -120%;
+  }
+  30% {
+    left: 140%;
+  }
+  100% {
+    left: 140%;
+  }
+}
+
+/* HUD Window & Terminal Components */
+.hud-card {
+  background-color: var(--surface-card);
+  border: 2px solid var(--border-subtle);
+  border-radius: 14px;
+  box-shadow: var(--card-shadow);
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.hud-card:hover {
+  border-color: var(--border-bright);
+}
+
+.hud-card-interactive:hover {
+  border-color: var(--accent-green);
+  box-shadow: 0 0 15px var(--accent-green-glow), var(--card-shadow);
+  transform: translateY(-2px);
+}
+
+/* Metallic Badge Utility (Adapts to Dark / Light per instructions) */
+.metallic-badge {
+  background: var(--metallic-badge);
+  color: var(--metallic-badge-text);
+  border: 2px solid var(--border-bright);
+  font-family: 'Press Start 2P', monospace;
+  letter-spacing: -0.5px;
+  box-shadow: 2px 2px 0px 0px var(--border-bright);
+}
+
+/* Pixel Buttons */
+.pixel-btn-primary {
+  background: var(--metallic-badge);
+  color: var(--metallic-badge-text);
+  border: 2px solid var(--border-bright);
+  font-family: 'Press Start 2P', monospace;
+  box-shadow: 3px 3px 0px 0px var(--border-bright);
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  user-select: none;
+}
+
+.pixel-btn-primary:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0px 0px var(--border-bright);
+}
+
+.pixel-btn-primary:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px 0px var(--border-bright);
+}
+
+.pixel-btn-green {
+  background-color: var(--accent-green);
+  color: #000000;
+  border: 2px solid var(--border-bright);
+  font-family: 'Press Start 2P', monospace;
+  box-shadow: 3px 3px 0px 0px var(--border-bright);
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  user-select: none;
+}
+
+.pixel-btn-green:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0px 0px var(--border-bright), 0 0 12px var(--accent-green-glow);
+}
+
+.pixel-btn-green:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px 0px var(--border-bright);
+}
+
+.pixel-btn-secondary {
+  background-color: var(--surface-raised);
+  color: var(--text-heading);
+  border: 2px solid var(--border-subtle);
+  font-family: 'Press Start 2P', monospace;
+  box-shadow: 2px 2px 0px 0px var(--border-subtle);
+  transition: transform 0.1s ease, box-shadow 0.1s ease, border-color 0.1s ease;
+  user-select: none;
+}
+
+.pixel-btn-secondary:hover {
+  border-color: var(--border-bright);
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0px 0px var(--border-bright);
+}
+
+.pixel-btn-secondary:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px 0px var(--border-bright);
+}
+
+/* Inputs */
+.hud-input {
+  background-color: var(--surface-raised);
+  color: var(--text-heading);
+  border: 2px solid var(--border-subtle);
+  font-family: 'JetBrains Mono', monospace;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.hud-input:focus {
+  border-color: var(--accent-green);
+  box-shadow: 0 0 0 2px var(--accent-green-glow);
+}
+
+/* Matrix Background Canvas */
+.matrix-canvas-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.matrix-vignette {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, transparent 35%, var(--bg-page) 90%);
+  pointer-events: none;
+}
+
+/* Subtle glow pulse */
+@keyframes glowPulse {
+  0% { box-shadow: 0 0 0px var(--accent-green); }
+  50% { box-shadow: 0 0 16px var(--accent-green); }
+  100% { box-shadow: 0 0 0px var(--accent-green); }
+}
+
+.pulse-glow-animation {
+  animation: glowPulse 1.2s ease-in-out;
+}
+
+/* Pixel Modal Pop */
+@keyframes pixelPop {
+  0% {
+    transform: scale(0.94) translateY(8px);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-pixel-pop {
+  animation: pixelPop 0.18s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Hide scrollbar on sleek tabs */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
